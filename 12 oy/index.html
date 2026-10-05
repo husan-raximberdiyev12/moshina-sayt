@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DRIVE — Avtomobil savdo maydoni</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">DRIVE<span>.</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tabCars" onclick="showView('cars')">Avtomobillar</button>
+      <button class="nav-tab" id="tabEquip" onclick="showView('equip')">Jihozlar</button>
+    </div>
+    <div class="nav-right">
+      <div class="lang-switch" id="langSwitch">
+        <button data-lang="uz" class="active">UZ</button>
+        <button data-lang="ru">RU</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+      <button class="auth-btn" id="authBtn" onclick="openAuth('login')">Kirish</button>
+      <span class="user-chip" id="userChip" style="display:none;"><span class="av" id="userAv"></span><span id="userName"></span><button class="link-btn" onclick="logout()">Chiqish</button></span>
+      <button class="cart-btn" onclick="openDrawer()"><span id="cartLabel">Savat</span> <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="carsView">
+<section class="hero">
+  <div class="wrap">
+    <h1 id="heroTitle">Har bir avtomobilni<br>o'zingizga moslang</h1>
+    <p id="heroSub">Rangini tanlang, disklarini almashtiring, aksessuar qo'shing va yetkazib berishni hisoblab, savatga qo'shing.</p>
+  </div>
+</section>
+
+<div class="trust-strip wrap">
+  <div><b>500+</b><span id="trustSold">sotilgan avtomobil</span></div>
+  <div><b>12 oy</b><span id="trustWarranty">kafolat</span></div>
+  <div><b>18</b><span id="trustBrands">brend va model</span></div>
+  <div><b>24/7</b><span id="trustSupport">qo'llab-quvvatlash</span></div>
+</div>
+
+<section class="grid-section">
+  <div class="wrap">
+    <div class="grid-title">
+      <h2 id="gridTitle">Ishlatilgan avtomobillar</h2>
+      <span id="countLabel"></span>
+    </div>
+    <div class="filters">
+      <input id="searchInput" type="text" placeholder="Brend yoki model bo'yicha qidirish...">
+      <select id="brandFilter"><option value="">Barcha brendlar</option></select>
+      <select id="sortFilter">
+        <option value="default">Saralash</option>
+        <option value="price-asc">Narx: arzondan qimmatga</option>
+        <option value="price-desc">Narx: qimmatdan arzonga</option>
+        <option value="year-desc">Yil: yangidan eskiga</option>
+      </select>
+      <button class="fav-toggle" id="favToggleBtn">♡ Faqat sevimlilar</button>
+    </div>
+    <div class="grid" id="carGrid"></div>
+  </div>
+</section>
+
+<section class="calc-section">
+  <div class="wrap">
+    <h2 id="calcTitle">Kredit / bo'lib to'lash hisoblagichi</h2>
+    <div class="calc-box">
+      <div class="calc-row"><label><span id="calcPriceLabel">Avtomobil narxi</span><span id="calcPriceVal"></span></label>
+        <input id="calcPrice" type="range" min="50000000" max="600000000" step="1000000" value="150000000"></div>
+      <div class="calc-row"><label><span id="calcDownLabel">Boshlang'ich to'lov</span><span id="calcDownVal"></span></label>
+        <input id="calcDown" type="range" min="0" max="70" step="5" value="20"></div>
+      <div class="calc-row"><label><span id="calcTermLabel">Muddat</span><span></span></label>
+        <select id="calcMonths"><option value="12">12 oy</option><option value="24" selected>24 oy</option><option value="36">36 oy</option><option value="48">48 oy</option></select></div>
+      <div class="calc-result" id="calcResult"></div>
+    </div>
+  </div>
+</section>
+
+<section class="review-section">
+  <div class="wrap">
+    <h2 id="reviewTitle">Mijozlar fikri</h2>
+    <div class="review-grid">
+      <div class="review-card"><div class="stars">★★★★★</div><p id="review1">Mashinani onlayn sozlab, o'zim tanlagan rangda buyurtma berdim. Yetkazib berish ham aytilgan vaqtda bo'ldi.</p><div class="who">Jahongir, Samarqand</div></div>
+      <div class="review-card"><div class="stars">★★★★★</div><p id="review2">Disklarni almashtirish variantini ko'rib, sport diskli versiyani tanladim — natija kutganimdek chiqdi.</p><div class="who">Madina, Toshkent</div></div>
+      <div class="review-card"><div class="stars">★★★★☆</div><p id="review3">Kredit hisoblagich orqali oylik to'lovni oldindan bilib oldim, bu qaror qabul qilishni osonlashtirdi.</p><div class="who">Otabek, Farg'ona</div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<main id="equipView" style="display:none;">
+<section class="equip-page">
+  <div class="wrap">
+    <h1 id="equipTitleH1">Jihozlar</h1>
+    <p class="equip-sub" id="equipSubP">Uy, ofis va mashinangiz uchun texnika hamda aksessuarlar</p>
+    <div class="equip-tabs" id="equipTabs"></div>
+    <div class="grid" id="equipGrid"></div>
+  </div>
+</section>
+</main>
+
+<footer id="footerText">DRIVE — namoyish maqsadida yaratilgan konseptual savdo sayti</footer>
+
+<!-- Detail modal -->
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="dTitle"></h2>
+      <button class="x-btn" onclick="closeDetail()">×</button>
+    </div>
+    <div class="stage" id="dStage"><div class="stage-car" id="stageCar"></div><div class="stage-wheel" id="stageWheel"></div></div>
+    <div class="sheet-content">
+      <div class="opt-block">
+        <h4 id="hBodyColor">KUZOV RANGI</h4>
+        <div class="swatches" id="bodySwatches"></div>
+      </div>
+      <div class="opt-block">
+        <h4 id="hInteriorColor">SALON RANGI</h4>
+        <div class="swatches" id="interiorSwatches"></div>
+      </div>
+      <div class="opt-block">
+        <h4 id="hWheels">DISKLAR</h4>
+        <div class="wheel-opt" id="wheelOpts"></div>
+      </div>
+      <div class="opt-block">
+        <h4 id="hAcc">AKSESSUARLAR</h4>
+        <div class="acc-list" id="accList"></div>
+      </div>
+    </div>
+    <div class="total-bar">
+      <div class="t" id="dTotal"></div>
+      <button class="btn-primary" onclick="addConfiguredToCart()" id="addCarBtn">Savatga qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2 style="margin:0;font-size:18px;" id="cartTitleH2">Savat</h2>
+    <button class="x-btn" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-body">
+    <div id="cartItems"></div>
+    <div class="delivery">
+      <h4 id="deliveryTitle">Yetkazib berish</h4>
+      <div class="d-row">
+        <select id="fromCity"></select>
+        <select id="toCity"></select>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:10px;" onclick="calcDelivery()" id="calcBtn">Hisoblash</button>
+      <div class="d-result" id="dResult"></div>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <div class="row"><span id="jamiLabel">Jami</span><span id="cartTotal">0 so'm</span></div>
+    <div class="pay-method">
+      <label><input type="radio" name="pm" value="cash" id="pmCash" checked> <span id="payCashLabel">Naqd</span></label>
+      <label><input type="radio" name="pm" value="installment" id="pmInstallment"> <span id="payInstallLabel">Bo'lib to'lash</span></label>
+    </div>
+    <div id="installmentBox" style="display:none;">
+      <select id="payMonths">
+        <option value="12">12 oy</option>
+        <option value="24" selected>24 oy</option>
+        <option value="36">36 oy</option>
+      </select>
+      <div id="payMonthly"></div>
+    </div>
+    <button class="checkout-btn" onclick="checkout()" id="checkoutBtn">Buyurtmani rasmiylashtirish</button>
+  </div>
+</div>
+
+<!-- Auth modal -->
+<div class="overlay" id="authOverlay" style="align-items:center;">
+  <div class="auth-box">
+    <div class="auth-art">
+      <div class="lg">DRIVE<span>.</span></div>
+      <h3 id="authArtTitle">Yo'lga chiqishga tayyormisiz?</h3>
+      <p id="authArtSub">Kiring — buyurtmalaringiz, sevimli mashinalaringiz va yetkazib berish bir joyda.</p>
+      <div class="auth-road"></div><div class="auth-ground"></div>
+      <div class="beam"></div>
+      <div class="auth-car" id="authCar"></div>
+    </div>
+    <div class="auth-form">
+      <button class="x-btn auth-x" onclick="closeAuth()">×</button>
+      <div class="auth-tabs">
+        <button id="tabLogin" class="active" onclick="setAuthMode('login')">Kirish</button>
+        <button id="tabRegister" onclick="setAuthMode('register')">Ro'yxatdan o'tish</button>
+      </div>
+      <h2 id="authTitle">Xush kelibsiz</h2>
+      <p class="sub2" id="authSub">Hisobingizga kiring</p>
+      <div class="af" id="fNameWrap" style="display:none;"><label id="nameLabel">Ismingiz</label><input id="fName" type="text" placeholder="Masalan, Husan" autocomplete="name"></div>
+      <div class="af"><label id="phoneLabel">Telefon raqam</label><input id="fPhone" type="tel" placeholder="+998 90 123 45 67" autocomplete="tel"></div>
+      <div class="af"><label id="passLabel">Parol</label><div class="pw-wrap"><input id="fPass" type="password" placeholder="Kamida 6 belgi" autocomplete="current-password"><button type="button" onclick="togglePw()">👁</button></div></div>
+      <div class="auth-err" id="authErr"></div>
+      <button class="auth-submit" id="authSubmit" onclick="submitAuth()">Kirish</button>
+      <div class="auth-note" id="authNote">Demo: ma'lumotlar faqat shu brauzerda saqlanadi</div>
+    </div>
+  </div>
+</div>
+
+<!-- Equipment detail modal -->
+<div class="overlay" id="equipOverlay">
+  <div class="sheet" style="max-width:480px;">
+    <div class="sheet-head">
+      <h2 id="eqTitle"></h2>
+      <button class="x-btn" onclick="closeEquipDetail()">×</button>
+    </div>
+    <div class="stage"><div class="eq-icon" id="eqIcon"></div></div>
+    <div class="sheet-content">
+      <div class="opt-block">
+        <h4 id="hSpecs">MA'LUMOTLAR</h4>
+        <div class="eq-specs" id="eqSpecs"></div>
+      </div>
+    </div>
+    <div class="total-bar">
+      <div class="t" id="eqTotal"></div>
+      <button class="btn-primary" onclick="addEquipConfiguredToCart()" id="addEquipBtn">Savatga qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
